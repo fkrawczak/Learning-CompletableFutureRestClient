@@ -1,7 +1,6 @@
 package org.example.completablefuturerestclient.infrastructure.lotto;
 
 import org.example.completablefuturerestclient.application.lotto.LottoClientInterface;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
@@ -20,23 +19,17 @@ public class LottoClient implements LottoClientInterface {
 
     @Override
     public String getLastWinnerName() {
-        String response = restClient.post()
+        HttpBinResponse response = restClient.get()
                 .uri("/delay/5")
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(new WinnerRequest("Jan Kowalski"))
                 .retrieve()
-                .body(String.class);
+                .body(HttpBinResponse.class);
 
-//        if (response == null || response.json() == null) {
-//            throw new IllegalStateException(
-//                    "Lotto service returned an empty response"
-//            );
-//        }
+        if (response == null || response.method() == null || response.url() == null) {
+            throw new IllegalStateException(
+                    "Lotto service returned an empty response"
+            );
+        }
 
-//        return response.json().name();
-        return response;
+        return "Lotto client response from method: %s url: %s".formatted(response.method(), response.url());
     }
-
-    private record WinnerRequest(String name) {}
 }
-

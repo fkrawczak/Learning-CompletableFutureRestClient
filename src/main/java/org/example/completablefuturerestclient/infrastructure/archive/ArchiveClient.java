@@ -5,6 +5,9 @@ import org.example.completablefuturerestclient.application.archive.Winner;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
+import java.math.BigDecimal;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 
 @Component
@@ -22,6 +25,21 @@ public class ArchiveClient implements ArchiveClientInterface {
 
     @Override
     public List<Winner> getArchiveWinners() {
-        return List.of();
+        HttpBinResponse response = restClient.get()
+                .uri("/delay/5")
+                .retrieve()
+                .body(HttpBinResponse.class);
+
+        if (response == null || response.method() == null || response.url() == null) {
+            throw new IllegalStateException(
+                    "Archive service returned an empty response"
+            );
+        }
+
+        String name = "Archive client response from method: %s url: %s".formatted(response.method(), response.url());
+        char lastSign = response.url().charAt(response.url().length() - 1);
+        int lastDigit = Character.getNumericValue(lastSign);
+
+        return List.of(new Winner(name, BigDecimal.valueOf(lastDigit), OffsetDateTime.now(ZoneOffset.UTC)));
     }
 }

@@ -7,8 +7,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
 @RestController
 @RequestMapping()
 @Tag(name = "Hall of fame", description = "Lotto winners")
@@ -23,6 +21,12 @@ public class LottoHallOfFameController {
 
     @GetMapping("/fame")
     public HallOfFameResponse getLottoHallOfFame() {
-        return new HallOfFameResponse(lottoClientInterface.getLastWinnerName(), List.of());
+        return new HallOfFameResponse(
+                lottoClientInterface.getLastWinnerName(),
+                archiveClientInterface.getArchiveWinners()
+                        .stream()
+                        .map(w -> new ArchiveWinner(w.name(), w.amount(), w.wonAt()))
+                        .toList()
+        );
     }
 }
