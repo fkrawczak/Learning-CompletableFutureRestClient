@@ -1,6 +1,8 @@
 package org.example.completablefuturerestclient.api;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.example.completablefuturerestclient.api.dto.ArchiveWinner;
+import org.example.completablefuturerestclient.api.dto.HallOfFameResponse;
 import org.example.completablefuturerestclient.application.archive.ArchiveClientInterface;
 import org.example.completablefuturerestclient.application.lotto.LottoClientInterface;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +23,9 @@ public class LottoHallOfFameController {
 
     @GetMapping("/fame")
     public HallOfFameResponse getLottoHallOfFame() {
+        // TODO - move those clients behind interface implementations:
+        //  plan to create 2 implementations - one as below, second with CompletableFuture
+        //  and learn how to easily switch interface implementations
         return new HallOfFameResponse(
                 lottoClientInterface.getLastWinnerName(),
                 archiveClientInterface.getArchiveWinners()

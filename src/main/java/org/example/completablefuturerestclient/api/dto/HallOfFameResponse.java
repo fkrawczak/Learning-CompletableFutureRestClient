@@ -1,4 +1,4 @@
-package org.example.completablefuturerestclient.api;
+package org.example.completablefuturerestclient.api.dto;
 
 import java.util.List;
 
