@@ -1,0 +1,8 @@
+services:
+  slow-http-service:
+    container_name: slow-http-service
+    image: ghcr.io/mccutchen/go-httpbin
+    ports:
+      - "8081:8080"
+    environment:
+      MAX_DURATION: 60s
