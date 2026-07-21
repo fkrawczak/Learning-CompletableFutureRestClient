@@ -1,4 +1,4 @@
-package org.example.completablefuturerestclient.api.dto;
+package org.example.completablefuturerestclient.application.fame;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
